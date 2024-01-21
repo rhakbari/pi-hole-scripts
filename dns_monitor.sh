@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Function to get the average ping
+# Function to get the average ping 
 get_average_ping() {
     local hostname=$1
     local count=4
