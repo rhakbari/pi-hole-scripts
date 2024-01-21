@@ -17,20 +17,12 @@ get_average_ping() {
     fi
 }
 
-# Function to change DNS settings
-change_dns_settings() {
-    local dns_servers=("$@")
-    local system_platform=$(uname)
-
-    if [[ $system_platform == "Darwin" ]]; then
-        # Change DNS settings on MacOS using networksetup command
-        networksetup -setdnsservers Wi-Fi "${dns_servers[@]}"
-    elif [[ $system_platform == "Linux" ]]; then
-        # Change DNS settings on Linux using resolvconf
-        resolvconf -a wlan0 "${dns_servers[@]}"
-    else
-        echo "Unsupported platform. DNS settings not changed."
-    fi
+# Function to change Pi-hole DNS settings
+change_pihole_dns() {
+    local dns_server=$1
+    pihole status
+    pihole -a -d "$dns_server"
+    pihole restartdns
 }
 
 cloudflare_dns=("1.1.1.1" "1.0.0.1")
@@ -66,8 +58,8 @@ while true; do
         echo "High ping for $consecutive_checks consecutive checks. Changing DNS to Google..."
         current_dns_servers=("${google_dns[@]}")
 
-        # Change DNS settings here
-        change_dns_settings "${current_dns_servers[@]}"
+        # Change Pi-hole DNS settings here
+        change_pihole_dns "${current_dns_servers[0]}"
 
         # Reset consecutive counts
         consecutive_high_pings=0
@@ -76,8 +68,8 @@ while true; do
         echo "Low ping for $consecutive_checks consecutive checks. Changing DNS to Cloudflare..."
         current_dns_servers=("${cloudflare_dns[@]}")
 
-        # Change DNS settings here
-        change_dns_settings "${current_dns_servers[@]}"
+        # Change Pi-hole DNS settings here
+        change_pihole_dns "${current_dns_servers[0]}"
 
         # Reset consecutive counts
         consecutive_high_pings=0
