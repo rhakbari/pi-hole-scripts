@@ -17,11 +17,11 @@ This script monitors the average ping to a specified host (e.g., Cloudflare DNS)
   
 2. **Make the script executable:**
 
-```bash
-chmod +x dns_monitor.sh
-```
+   ```bash
+   chmod +x dns_monitor.sh
+   ```
 
 3. **Run the script in the background:**
- ```bash
+   ```bash
    ./dns_monitor.sh &
-```
+   ```
