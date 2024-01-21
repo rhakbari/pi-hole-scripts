@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Function to get the average ping 
+# Function to get the average ping
 get_average_ping() {
     local hostname=$1
     local count=4
@@ -23,6 +23,13 @@ change_pihole_dns() {
     pihole status
     pihole -a -d "$dns_server"
     pihole restartdns
+}
+
+# Function to log DNS changes
+log_dns_change() {
+    local new_dns=$1
+    local timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+    echo "[$timestamp] DNS changed to $new_dns" >> dns_change_log.txt
 }
 
 cloudflare_dns=("1.1.1.1" "1.0.0.1")
@@ -61,6 +68,9 @@ while true; do
         # Change Pi-hole DNS settings here
         change_pihole_dns "${current_dns_servers[0]}"
 
+        # Log DNS change
+        log_dns_change "${current_dns_servers[0]}"
+
         # Reset consecutive counts
         consecutive_high_pings=0
         consecutive_low_pings=0
@@ -70,6 +80,9 @@ while true; do
 
         # Change Pi-hole DNS settings here
         change_pihole_dns "${current_dns_servers[0]}"
+
+        # Log DNS change
+        log_dns_change "${current_dns_servers[0]}"
 
         # Reset consecutive counts
         consecutive_high_pings=0
