@@ -39,7 +39,7 @@ This guide demonstrates how to set up a systemd service to run a Python script a
 
 1. **Create a systemd Service File**:
    
-   - Create a `.service` file for your Python script. For example, let's assume your Python script is named `myscript.py`, and it's located in `/path/to/script`.
+   - Create a `.service` file for your Python script. For example, let's assume your Python script is named `tplink_dns.py`, and it's located in `/path/to/script`.
    
    - Open a terminal and create a file named `myscript.service` in the `/etc/systemd/system/` directory:
    
@@ -56,7 +56,7 @@ This guide demonstrates how to set up a systemd service to run a Python script a
 
      [Service]
      Type=simple
-     ExecStart=/usr/bin/python3 /path/to/script/myscript.py
+     ExecStart=/usr/bin/python3 /path/to/script/tplink_dns.py
      Restart=always
 
      [Install]
