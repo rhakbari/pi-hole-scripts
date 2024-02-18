@@ -11,16 +11,20 @@ def get_average_ping(hostname):
         return float(avg_ping)
     else:
         return None
-
+        
 def change_router_dns(dns_server):
-    # Replace the following URL, username, and password with your router's details
+    # Replace the following URL and password with your router's details
     router_url = "http://192.168.0.1"
-    router_username = "your_username"
     router_password = "your_password"
 
     # Set the DNS settings
     dns_payload = {"DnsSaVe": "0", "dns1": dns_server, "dns2": ""}
-    session.post(f"{router_url}/userRpm/WanDnsCfgRpm.htm", data=dns_payload, auth=(router_username, router_password))
+    response = requests.post(f"{router_url}/userRpm/WanDnsCfgRpm.htm", data=dns_payload, auth=("admin", router_password))
+
+    if response.status_code == 200:
+        print("Router login successful.")
+    else:
+        print("Router login failed.")
 
 def get_router_dns():
     # Replace the following URL, username, and password with your router's details
