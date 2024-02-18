@@ -11,7 +11,7 @@ def get_average_ping(hostname):
         return float(avg_ping)
     else:
         return None
-        
+
 def change_router_dns(dns_server):
     # Replace the following URL and password with your router's details
     router_url = "http://192.168.0.1"
@@ -32,6 +32,7 @@ def get_router_dns():
     router_username = "your_username"
     router_password = "your_password"
 
+    print("Fetching current router DNS settings...")
     # Get the current DNS settings
     # You may need to use a different method to fetch router DNS settings based on your router's API
     # This is just a placeholder
@@ -41,7 +42,9 @@ def get_router_dns():
     # return dns_settings["dns_servers"]
 
     # For now, return None as a placeholder
-    return None
+    current_dns = None
+    print("Current router DNS settings:", current_dns)
+    return current_dns
 
 def log_dns_change(new_dns):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -61,6 +64,7 @@ consecutive_high_pings = 0
 consecutive_low_pings = 0
 
 while True:
+    print("Performing ping test...")
     avg_ping = get_average_ping(host_to_ping)
     print(f"Average Ping: {avg_ping} ms")
 
@@ -104,7 +108,7 @@ while True:
                 print("Router DNS not set or set to an invalid value. Setting to Cloudflare DNS.")
                 current_dns_servers = cloudflare_dns
                 change_router_dns(current_dns_servers[0])
-                log_dns_change(current_dns_servers[0]))
+                log_dns_change(current_dns_servers[0])
             else:
                 print("Router DNS is already set.")
 
